@@ -42,22 +42,52 @@
 
   </style>
 <script>
-  function showBoard(){
+  let state = {
+    board: [
+      [ '', '', '', '', '', '', '' ],
+      [ '', 'r', '', '', '', '', '' ],
+      [ '', '', '', '', '', '', '' ],
+      [ '', '', '', 'r', '', '', '' ],
+      [ '', '', '', '', '', '', '' ],
+      [ '', 'b', '', '', '', '', '' ]
+    ]
+  }
+  
+  function showBoard() {
     let board = document.getElementsByClassName("board")[0]
-    console.log(board)
+    board.innerHTML = ""
     for(let i = 0; i < 7 * 6; i++) {
       let node = document.createElement("div")
       board.appendChild(node)
       node.setAttribute("class", "field")
       let child = document.createElement("div")
-      if(Math.random() * 2 > 1) {
+      let value = state.board[Math.floor(i / 7)][i % 7]
+      if(value == "r") {
         child.setAttribute("class", "red piece")
-      } else {
+      } else if(value == "b") {
         child.setAttribute("class", "blue piece")
       }
       node.appendChild(child)
     }
   }
+
+  function doRandomStuff() {
+      let randomOperation = Math.floor(Math.random() * 2)
+      let randomY = Math.floor(Math.random() * 6)
+      let randomX = Math.floor(Math.random() * 7)
+      let randomColor = Math.floor(Math.random() * 2) == 1 ? "b" : "r";
+      switch(randomOperation) {
+        case 0:
+          state.board[randomY][randomX] = randomColor
+          break;
+        case 1:
+          state.board[randomY][randomX] = ""
+          break;
+      }
+      showBoard()
+  }
+
+  setInterval(doRandomStuff, 100);
 </script>
 
 </head>
