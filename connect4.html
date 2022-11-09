@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vier gewinnt</title>
+
+  <style>
+
+    div {
+      box-sizing: border-box;
+    }
+
+    .board {
+      width: 84vw;
+      margin: auto;
+      outline: 1px solid black;
+   }
+
+    .board .field {
+      border: 1px solid black;
+      width: 12vw;
+      height: 12vw;
+      float: left;
+    }
+
+    .board .field:first-child {
+      float: left;
+    }
+
+    .board .field .piece {
+      width: 10vw;
+      height: 10vw;
+      border-radius: 50%;
+      margin: 1vw;
+    }
+    .board .field .blue {
+      background-color: blue;
+    }
+    .board .field .red {
+      background-color: red;
+    }
+
+  </style>
+<script>
+  function showBoard(){
+    let board = document.getElementsByClassName("board")[0]
+    console.log(board)
+    for(let i = 0; i < 7 * 6; i++) {
+      let node = document.createElement("div")
+      board.appendChild(node)
+      node.setAttribute("class", "field")
+      let child = document.createElement("div")
+      if(Math.random() * 2 > 1) {
+        child.setAttribute("class", "red piece")
+      } else {
+        child.setAttribute("class", "blue piece")
+      }
+      node.appendChild(child)
+    }
+  }
+</script>
+
+</head>
+<body>
+
+  <div class="board"></div>
+
+  <script>
+    showBoard()
+  </script>
+
+</body>
+</html>
