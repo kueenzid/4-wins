@@ -18,6 +18,8 @@ function init() {
     document.getElementById("newGame").addEventListener("click", newGame);
     document.getElementById("load").addEventListener("click", loadGame);
     document.getElementById("save").addEventListener("click", saveGame);
+    document.getElementById("localLoad").addEventListener("click", loadLocal);
+    document.getElementById("localSave").addEventListener("click", saveLocal);
 
     displayColor()
     showBoard()
@@ -116,4 +118,13 @@ function loadGame() {
     fetch(url + "api/data/" + datakey + "?api-key=c4game")
     .then(response => response.json())
     .then(data => { state = data; showBoard() })
+}
+
+function loadLocal() {
+    state = JSON.parse(localStorage.getItem("4-Gewinnt"))
+    showBoard()
+}
+
+function saveLocal() {
+    localStorage.setItem("4-Gewinnt", JSON.stringify(state))
 }
