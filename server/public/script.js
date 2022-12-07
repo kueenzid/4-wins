@@ -8,7 +8,8 @@ let state = {
     [ '', '', '', '', '', '', '' ]
     ],
     color: "b",
-    hasWinner: false
+    hasWinner: false,
+    history: []
 }
 
 const datakey = "connect4"
@@ -20,6 +21,7 @@ function init() {
     document.getElementById("save").addEventListener("click", saveGame);
     document.getElementById("localLoad").addEventListener("click", loadLocal);
     document.getElementById("localSave").addEventListener("click", saveLocal);
+    document.getElementById("undo").addEventListener("click", undo)
 
     displayColor()
     showBoard()
@@ -45,7 +47,6 @@ function showBoard() {
         if(!state.hasWinner) {
             addListeners()
         }
-        displayColor()
     }
 }
 
@@ -60,15 +61,16 @@ function clicked() {
     let id = this.id
     let column = id % 7
     addIntoColumn(column)
-    showBoard()
 }
 
 function addIntoColumn(column) {
     for(let i = state.board.length - 1; i >= 0; i--) {
         if(state.board[i][column] == "") {
             state.board[i][column] = state.color
+            state.history.push(column)
+            showBoard()
             if(connect4Winner(state.color, state.board)) {
-                state.hasWinner = true;
+                state.hasWinner = true
                 alert("Der Gewinner ist " + (state.color == "r" ? "Rot" : "Blau"))
             }
             switchColor()
@@ -83,6 +85,7 @@ function switchColor() {
     } else {
     state.color = "r"
     }
+    displayColor()
 }
 
 function displayColor() {
@@ -100,7 +103,8 @@ function newGame() {
         [ '', '', '', '', '', '', '' ]
     ],
     color: "r",
-    hasWinner: false
+    hasWinner: false,
+    history: []
     }
     init()
 }
@@ -127,4 +131,16 @@ function loadLocal() {
 
 function saveLocal() {
     localStorage.setItem("4-Gewinnt", JSON.stringify(state))
+}
+
+function undo() {
+    let column = state.history.pop()
+    for(let i = 0; i < state.board.length; i++) {
+        if(state.board[i][column] != "") {
+            state.board[i][column] = ""
+            break
+        }
+    }
+    switchColor()
+    showBoard()
 }

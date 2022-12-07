@@ -62,7 +62,8 @@
       [ '', '', '', '', '', '', '' ]
       ],
       next: 'b',
-      hasWinner: false
+      hasWinner: false,
+      history: []
     }
   }
   
