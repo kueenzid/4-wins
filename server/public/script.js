@@ -24,6 +24,7 @@ function init() {
     document.getElementById("undo").addEventListener("click", undo)
 
     displayColor()
+    showWinner()
     showBoard()
 }
 
@@ -68,15 +69,15 @@ function addIntoColumn(column) {
         if(state.board[i][column] == "") {
             state.board[i][column] = state.color
             state.history.push(column)
-            showBoard()
+            i = -1
             if(connect4Winner(state.color, state.board)) {
                 state.hasWinner = true
-                alert("Der Gewinner ist " + (state.color == "r" ? "Rot" : "Blau"))
+                showWinner()
             }
             switchColor()
-            break
         }
     }
+    showBoard()
 }
 
 function switchColor() {
@@ -134,13 +135,24 @@ function saveLocal() {
 }
 
 function undo() {
+    if(state.history.length == 0) {
+        return
+    }
     let column = state.history.pop()
     for(let i = 0; i < state.board.length; i++) {
         if(state.board[i][column] != "") {
             state.board[i][column] = ""
+            switchColor()
+            showBoard()
             break
         }
     }
-    switchColor()
-    showBoard()
+}
+
+function showWinner() {
+    if(state.hasWinner) {
+        document.getElementById("winner").innerHTML = state.color == "r" ? "Rot" : "Blau"
+    } else {
+        document.getElementById("winner").innerHTML = ""
+    }
 }
