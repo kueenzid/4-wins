@@ -142,6 +142,8 @@ function undo() {
     for(let i = 0; i < state.board.length; i++) {
         if(state.board[i][column] != "") {
             state.board[i][column] = ""
+            state.hasWinner = connect4Winner(state.color, state.board)
+            showWinner()
             switchColor()
             showBoard()
             break
